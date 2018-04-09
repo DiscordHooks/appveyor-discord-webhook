@@ -31,14 +31,14 @@ Switch ($STATUS) {
 }
 $AVATAR="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Appveyor_logo.svg/256px-Appveyor_logo.svg.png"
 
-if (!$APPVEYOR_REPO_COMMIT) {
-  $APPVEYOR_REPO_COMMIT="$(git log -1 --pretty="%H")"
+if (!$env:APPVEYOR_REPO_COMMIT) {
+  $env:APPVEYOR_REPO_COMMIT="$(git log -1 --pretty="%H")"
 }
 
-$AUTHOR_NAME="$(git log -1 "$APPVEYOR_REPO_COMMIT" --pretty="%aN")"
-$COMMITTER_NAME="$(git log -1 "$APPVEYOR_REPO_COMMIT" --pretty="%cN")"
-$COMMIT_SUBJECT="$(git log -1 "$APPVEYOR_REPO_COMMIT" --pretty="%s")"
-$COMMIT_MESSAGE="$(git log -1 "$APPVEYOR_REPO_COMMIT" --pretty="%b")"
+$AUTHOR_NAME="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%aN")"
+$COMMITTER_NAME="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%cN")"
+$COMMIT_SUBJECT="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%s")"
+$COMMIT_MESSAGE="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%b")"
 
 if ($AUTHOR_NAME -eq $COMMITTER_NAME) {
   $CREDITS="$AUTHOR_NAME authored & committed"
@@ -47,8 +47,8 @@ else {
   $CREDITS="$AUTHOR_NAME authored & $COMMITTER_NAME committed"
 }
 
-if ($APPVEYOR_PULL_REQUEST_NUMBER) {
-  $URL="https://github.com/$APPVEYOR_REPO_NAME/pull/$APPVEYOR_PULL_REQUEST_NUMBER"
+if ($env:APPVEYOR_PULL_REQUEST_NUMBER) {
+  $URL="https://github.com/$env:APPVEYOR_REPO_NAME/pull/$env:APPVEYOR_PULL_REQUEST_NUMBER"
 }
 else {
   $URL=""
@@ -61,8 +61,8 @@ $WEBHOOK_DATA="{
   ""embeds"": [ {
     ""color"": $EMBED_COLOR,
     ""author"": {
-      ""name"": ""Job #$APPVEYOR_JOB_NUMBER (Build #$APPVEYOR_BUILD_NUMBER) $STATUS_MESSAGE - $APPVEYOR_REPO_NAME"",
-      ""url"": ""https://ci.appveyor.com/project/$APPVEYOR_ACCOUNT_NAME/$APPVEYOR_PROJECT_SLUG/build/$APPVEYOR_BUILD_NUMBER"",
+      ""name"": ""Job #$env:APPVEYOR_JOB_NUMBER (Build #$env:APPVEYOR_BUILD_NUMBER) $STATUS_MESSAGE - $env:APPVEYOR_REPO_NAME"",
+      ""url"": ""https://ci.appveyor.com/project/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/build/$env:APPVEYOR_BUILD_NUMBER"",
       ""icon_url"": ""$AVATAR""
     },
     ""title"": ""$COMMIT_SUBJECT"",
@@ -71,12 +71,12 @@ $WEBHOOK_DATA="{
     ""fields"": [
       {
         ""name"": ""Commit"",
-        ""value"": ""[``$($APPVEYOR_REPO_COMMIT.substring(0, 7))``](https://github.com/$APPVEYOR_REPO_NAME/commit/$APPVEYOR_REPO_COMMIT)"",
+        ""value"": ""[``$($env:APPVEYOR_REPO_COMMIT.substring(0, 7))``](https://github.com/$env:APPVEYOR_REPO_NAME/commit/$env:APPVEYOR_REPO_COMMIT)"",
         ""inline"": true
       },
       {
         ""name"": ""Branch/Tag"",
-        ""value"": ""[``$APPVEYOR_REPO_BRANCH``](https://github.com/$APPVEYOR_REPO_NAME/tree/$APPVEYOR_REPO_BRANCH)"",
+        ""value"": ""[``$env:APPVEYOR_REPO_BRANCH``](https://github.com/$env:APPVEYOR_REPO_NAME/tree/$env:APPVEYOR_REPO_BRANCH)"",
         ""inline"": true
       }
     ],
