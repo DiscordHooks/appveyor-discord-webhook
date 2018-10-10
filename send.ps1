@@ -7,7 +7,7 @@ $WEBHOOK_URL=$args[1]
 if (!$WEBHOOK_URL) {
   Write-Output "WARNING!!"
   Write-Output "You need to pass the WEBHOOK_URL environment variable as the second argument to this script."
-  Write-Output "For details & guide, visit: https://github.com/k3rn31p4nic/appveyor-discord-webhook"
+  Write-Output "For details & guide, visit: https://github.com/DiscordHooks/appveyor-discord-webhook"
   Exit
 }
 
