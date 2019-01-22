@@ -77,7 +77,7 @@ $WEBHOOK_DATA="{
         ""inline"": true
       },
       {
-        ""name"": ""Branch/Tag"",
+        ""name"": ""Branch"",
         ""value"": ""[``$env:APPVEYOR_REPO_BRANCH``](https://github.com/$env:APPVEYOR_REPO_NAME/tree/$env:APPVEYOR_REPO_BRANCH)"",
         ""inline"": true
       }
