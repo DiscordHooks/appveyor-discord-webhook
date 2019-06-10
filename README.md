@@ -45,3 +45,4 @@ please consider opening an issue and I'll fix it ASAP.
 
 ### See Also
 -  [Travis CI -> Discord Webhook](https://github.com/DiscordHooks/travis-ci-discord-webhook)
+-  [GitLab CI -> Discord Webhook](https://github.com/DiscordHooks/gitlab-ci-discord-webhook)
