@@ -38,14 +38,20 @@ if (!$env:APPVEYOR_REPO_COMMIT) {
 $AUTHOR_NAME="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%aN")"
 $COMMITTER_NAME="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%cN")"
 $COMMIT_SUBJECT="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%s")" -replace "`"", "'"
-$COMMIT_MESSAGE="$(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%b")" -replace "`"", "'"
+$COMMIT_MESSAGE=(git log -1 "$env:APPVEYOR_REPO_COMMIT" --pretty="%b") -replace "`"", "'" | Out-String | ConvertTo-Json
 
 if ($AUTHOR_NAME -eq $COMMITTER_NAME) {
-  $CREDITS="$AUTHOR_NAME authored & committed"
+  $CREDITS="`n$AUTHOR_NAME authored & committed" | ConvertTo-Json
+
 }
 else {
-  $CREDITS="$AUTHOR_NAME authored & $COMMITTER_NAME committed"
+  $CREDITS="`n$AUTHOR_NAME authored & $COMMITTER_NAME committed" | ConvertTo-Json
+
 }
+
+# Remove Starting and Ending double quotes by ConvertTo-Json
+$COMMIT_MESSAGE = $COMMIT_MESSAGE.Substring(1, $COMMIT_MESSAGE.Length-2)
+$CREDITS = $CREDITS.Substring(1, $CREDITS.Length-2)
 
 if ($env:APPVEYOR_PULL_REQUEST_NUMBER) {
   $COMMIT_SUBJECT="PR #$env:APPVEYOR_PULL_REQUEST_NUMBER - $env:APPVEYOR_PULL_REQUEST_TITLE"
